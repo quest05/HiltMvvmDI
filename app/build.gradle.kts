@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+//    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -34,7 +35,11 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        dataBinding = true // for data binding
         viewBinding = true
+    }
+    packagingOptions {
+        exclude("META-INF/gradle/incremental.annotation.processors")
     }
 }
 
@@ -48,4 +53,29 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.kotlinx.coroutines.core)
+
+    implementation(libs.hilt.viewmodel)
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.compiler)
+//    kapt(libs.hilt.compiler)
+
+
+    implementation(libs.google.gson)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter)
+    implementation(libs.okhttp)
+
+    implementation(libs.lifecycle.viewmodel)
+    implementation(libs.lifecycle.livedata)
+
+    implementation(libs.io.coil)
+    implementation(libs.room)
+    implementation(libs.room.runtime)
+
+    implementation(libs.sdp.intuit)
+    implementation(libs.ssp.intuit)
+
 }
