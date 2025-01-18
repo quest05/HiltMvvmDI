@@ -18,9 +18,9 @@ constructor(private val mainRepository: MainRepository) : ViewModel() {
 
     val postStateFlow: MutableStateFlow<ApiState> = MutableStateFlow(ApiState.Empty)
 
-    fun getExpenseListItem(mHashMap: HashMap<String, Any>) = viewModelScope.launch {
+    fun getExpenseListItem() = viewModelScope.launch {
         postStateFlow.value = ApiState.Loading
-        mainRepository.getExpenseApiData(mHashMap)
+        mainRepository.getExpenseApiData()
             .catch { e ->
                 postStateFlow.value = ApiState.Failure(e)
             }.collect { data ->

@@ -2,6 +2,7 @@ package com.example.hiltmvvmdemo.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -15,6 +16,7 @@ import com.example.hiltmvvmdemo.database.AlertViewModel
 import com.example.hiltmvvmdemo.databinding.ActivityExpenseListBinding
 import com.example.hiltmvvmdemo.models.Alert
 import com.example.hiltmvvmdemo.models.AlertsResponseClass
+import com.example.hiltmvvmdemo.models.Product
 import com.example.hiltmvvmdemo.util.ApiState
 import com.example.hiltmvvmdemo.util.Utilities.showToast
 import com.example.hiltmvvmdemo.viewmodel.AlertsListViewModel
@@ -27,10 +29,16 @@ class ExpenseListActivity : AppCompatActivity(), AlertsAdapter.OnItemClickListen
     private lateinit var binding: ActivityExpenseListBinding
     private lateinit var postAdapter: AlertsAdapter
     private val mainViewModel: AlertsListViewModel by viewModels()
+//    val mainViewModel by viewModels<AlertsListViewModel>()
+
     private lateinit var context: Context
-    private val alertViewModel: AlertViewModel by viewModels()
+//    private val alertViewModel: AlertViewModel by viewModels()
+//    val alertViewModel by viewModels<AlertViewModel>()
+
 //    val viewModel: AlertViewModel = hiltViewModel()
-    private var alertsList: List<Alert> = ArrayList()
+//    val viewModel = hiltViewModel<AlertViewModel>()
+
+    private var alertsList: List<Product> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityExpenseListBinding.inflate(layoutInflater)
@@ -39,7 +47,7 @@ class ExpenseListActivity : AppCompatActivity(), AlertsAdapter.OnItemClickListen
         intializeData()
     }
 
-    fun intializeViews() {
+    private fun intializeViews() {
         context = this
         postAdapter = AlertsAdapter(ArrayList(), this, context)
         binding.rvExpenseList.apply {
@@ -60,7 +68,7 @@ class ExpenseListActivity : AppCompatActivity(), AlertsAdapter.OnItemClickListen
     }
 
     private fun deleteItemFromDb(adapterPosition: Int) {
-        alertViewModel.delete(alertsList.get(adapterPosition))
+//        alertViewModel.delete(alertsList.get(adapterPosition))
         lifecycleScope.launch {
             delay(1000L)
 
@@ -69,28 +77,26 @@ class ExpenseListActivity : AppCompatActivity(), AlertsAdapter.OnItemClickListen
     }
 
     private fun callApi() {
-        val mHashMap = HashMap<String, Any>()
-        mHashMap["request_param"] = "Value"
-        mHashMap["page"] = "1"
-        mainViewModel.getExpenseListItem(mHashMap)
+        mainViewModel.getExpenseListItem()
         lifecycleScope.launchWhenStarted {
             mainViewModel.postStateFlow.collect { it ->
                 when (it) {
                     is ApiState.Loading -> {
                     }
                     is ApiState.Failure -> {
+                        Log.e("TAG", "callApi: 87 ${it.msg}" )
                         showToast(context, it.msg.toString())
                     }
                     is ApiState.Success<*> -> {
                         binding.rvExpenseList.isVisible = true
-                        var result = it.result as AlertsResponseClass
-                        alertsList = result.alerts
-                        postAdapter.setData(result.alerts)
+                        var result = it.result as ArrayList<Product>
+                        alertsList = result
+                        postAdapter.setData(result)
                         postAdapter.notifyDataSetChanged()
-                        for (i in 0 until result.alerts.size) {
-                            //saving to db
-                            alertViewModel.insert(result.alerts.get(i))
-                        }
+//                        for (i in 0 until result.alerts.size) {
+//                            //saving to db
+//                           alertViewModel.insert(result.alerts.get(i))
+//                        }
                     }
                     is ApiState.Empty -> {
 
@@ -100,8 +106,8 @@ class ExpenseListActivity : AppCompatActivity(), AlertsAdapter.OnItemClickListen
         }
     }
 
-    fun intializeData() {
-        alertViewModel.getList.observe(this, Observer {response->
+    private fun intializeData() {
+        /*alertViewModel.getList.observe(this, Observer {response->
             alertsList = (response as ArrayList<Alert>)
             if (alertsList.size>0){
                 //load from db
@@ -112,10 +118,11 @@ class ExpenseListActivity : AppCompatActivity(), AlertsAdapter.OnItemClickListen
                 // get data from server
                 callApi()
             }
-        })
+        })*/
+        callApi()
     }
 
-    override fun onItemClicked(data: Alert) {
+    override fun onItemClicked(data: Product) {
 
     }
 }

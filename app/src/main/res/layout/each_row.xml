@@ -5,7 +5,7 @@
       <import type="android.view.View"/>
     <variable
         name="expenseResponse"
-        type="com.example.hiltmvvmdemo.models.Alert"/>
+        type="com.example.hiltmvvmdemo.models.Product"/>
   </data>
 
 <androidx.cardview.widget.CardView
@@ -32,13 +32,12 @@
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:padding="@dimen/_6sdp"
-            android:text="@{expenseResponse.alert_message}"
+            android:text="@{expenseResponse.category}"
             android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-
             />
 
         <TextView
@@ -72,7 +71,7 @@
             android:paddingTop="@dimen/_3sdp"
             android:paddingRight="@dimen/_8sdp"
             android:paddingBottom="@dimen/_3sdp"
-            android:text="@{expenseResponse.alert_frequency}"
+            android:text="@{expenseResponse.description}"
             android:textColor="@color/blue"
             android:textSize="@dimen/_11ssp"
             android:textStyle="bold"
@@ -90,7 +89,7 @@
             android:paddingTop="@dimen/_3sdp"
             android:paddingRight="@dimen/_8sdp"
             android:paddingBottom="@dimen/_3sdp"
-            android:text="@{expenseResponse.alert_module_type}"
+            android:text="@{expenseResponse.title}"
             android:textColor="@color/blue"
             android:textSize="@dimen/_11ssp"
             android:textStyle="bold"

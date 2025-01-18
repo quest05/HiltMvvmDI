@@ -2,11 +2,13 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
 //    alias(libs.plugins.kotlin.kapt)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
     namespace = "com.example.hiltmvvmdemo"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.hiltmvvmdemo"
@@ -39,13 +41,17 @@ android {
         viewBinding = true
     }
     packagingOptions {
-        exclude("META-INF/gradle/incremental.annotation.processors")
+        resources.excludes.add("META-INF/*")
     }
+    /*packagingOptions {
+        exclude("META-INF/gradle/incremental.annotation.processors")
+    }*/
 }
 
 dependencies {
 
     implementation(libs.androidx.core.ktx)
+//    implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
@@ -54,13 +60,15 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(libs.kotlinx.coroutines)
+//    implementation(libs.kotlinx.coroutines)
     implementation(libs.kotlinx.coroutines.core)
 
-    implementation(libs.hilt.viewmodel)
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.compiler)
+//    implementation(libs.hilt.viewmodel)
+//    implementation(libs.hilt.android)
+//    implementation(libs.hilt.compiler)
 //    kapt(libs.hilt.compiler)
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 
 
     implementation(libs.google.gson)

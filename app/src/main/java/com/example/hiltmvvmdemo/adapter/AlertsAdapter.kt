@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hiltmvvmdemo.databinding.EachRowBinding
-import com.example.hiltmvvmdemo.models.Alert
+import com.example.hiltmvvmdemo.models.Product
 
 class AlertsAdapter(
-    private var results: List<Alert>,
+    private var results: List<Product>,
     private val itemClickListener: OnItemClickListener,
     var context: Context
 ) : RecyclerView.Adapter<AlertsAdapter.MyViewHolder>() {
@@ -35,7 +35,7 @@ class AlertsAdapter(
             this.eachRowBinding = eachRowBinding
         }
         fun bind(
-            data: Alert,
+            data: Product,
             itemClickListener: OnItemClickListener
         ) {
             eachRowBinding.cvExpenseList.setOnClickListener {
@@ -45,10 +45,10 @@ class AlertsAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClicked(data: Alert)
+        fun onItemClicked(data: Product)
     }
 
-    fun setData(expensesResponse: List<Alert>) {
+    fun setData(expensesResponse: List<Product>) {
         this.results = expensesResponse
     }
 }

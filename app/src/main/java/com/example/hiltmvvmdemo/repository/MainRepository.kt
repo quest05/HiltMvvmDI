@@ -1,6 +1,7 @@
 package com.example.hiltmvvmdemo.repository
 
 import com.example.hiltmvvmdemo.models.AlertsResponseClass
+import com.example.hiltmvvmdemo.models.Product
 import com.example.hiltmvvmdemo.network.ApiServiceImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +13,7 @@ class MainRepository
 @Inject
 constructor(private val apiServiceImpl: ApiServiceImpl) {
 
-    fun getExpenseApiData(mHashMap: HashMap<String, Any>): Flow<AlertsResponseClass> = flow {
-        emit(apiServiceImpl.getExpenseList(mHashMap))
+    fun getExpenseApiData(): Flow<ArrayList<Product>> = flow {
+        emit(apiServiceImpl.getExpenseList())
     }.flowOn(Dispatchers.IO)
 }
